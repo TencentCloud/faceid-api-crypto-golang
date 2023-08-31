@@ -3,7 +3,7 @@
 ### 引入依赖
 
 ```golang
-go get -u github.com/TencentCloud/faceid-api-crypto-golang/faceid
+go get -u github.com/TencentCloud/faceid-api-crypto-golang/faceid@v1.0.0
 
 ```
 
