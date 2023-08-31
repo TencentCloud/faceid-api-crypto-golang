@@ -6,8 +6,11 @@ import (
 	"crypto/cipher"
 )
 
-func encryptAES256CBC(key, plaintext, iv []byte) []byte {
-	block, _ := aes.NewCipher(key)
+func encryptAES256CBC(key, plaintext, iv []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
 	blockSize := block.BlockSize()
 	pkcs7 := func(cipherText []byte, blockSize int) []byte {
 		padding := blockSize - len(cipherText)%blockSize
@@ -19,11 +22,14 @@ func encryptAES256CBC(key, plaintext, iv []byte) []byte {
 	blockMode := cipher.NewCBCEncrypter(block, iv)
 	ciphertext := make([]byte, len(plaintext))
 	blockMode.CryptBlocks(ciphertext, plaintext)
-	return ciphertext
+	return ciphertext, nil
 }
 
-func decryptAES256CBC(key, ciphertext, iv []byte) []byte {
-	block, _ := aes.NewCipher(key)
+func decryptAES256CBC(key, ciphertext, iv []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
 	blockMode := cipher.NewCBCDecrypter(block, iv)
 	plaintext := make([]byte, len(ciphertext))
 	blockMode.CryptBlocks(plaintext, ciphertext)
@@ -33,5 +39,5 @@ func decryptAES256CBC(key, ciphertext, iv []byte) []byte {
 		padding := int(bytes[length-1])
 		return bytes[:(length - padding)]
 	}
-	return pkcs7(plaintext)
+	return pkcs7(plaintext), nil
 }
