@@ -1,4 +1,4 @@
-module github.com/TencentCloud/faceid-api-crypto-golang
+module github.com/tencentcloud/faceid/crypto
 
 go 1.16
 
