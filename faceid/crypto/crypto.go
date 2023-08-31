@@ -1,4 +1,4 @@
-package faceid
+package crypto
 
 import (
 	"crypto/rsa"
