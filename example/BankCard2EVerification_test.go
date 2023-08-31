@@ -2,6 +2,7 @@ package example
 
 import (
 	"encoding/json"
+	"github.com/TencentCloud/faceid-api-crypto-golang/faceid"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
