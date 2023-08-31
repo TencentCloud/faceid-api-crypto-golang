@@ -1,9 +1,9 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/TencentCloud/faceid-api-crypto-golang/faceid v0.0.0-20230831084449-d01e3866559d h1:TdrrkQH4WYjTyMKoC+5oHHpKKnJP9EpFmbckGqVaL8E=
-github.com/TencentCloud/faceid-api-crypto-golang/faceid v0.0.0-20230831084449-d01e3866559d/go.mod h1:T35GDu+dTrP16wgMxyT2D9sz4dK9unN4/9OykxToIIA=
 github.com/TencentCloud/faceid-api-crypto-golang/faceid v0.0.0-20230831090926-d9671ab8cdc8 h1:m5wsC9cvkKWpDcTt8qHxNnpojXFFm8aOr2rEo26b1r4=
 github.com/TencentCloud/faceid-api-crypto-golang/faceid v0.0.0-20230831090926-d9671ab8cdc8/go.mod h1:T35GDu+dTrP16wgMxyT2D9sz4dK9unN4/9OykxToIIA=
+github.com/TencentCloud/faceid-api-crypto-golang/faceid v1.0.0 h1:OUHgb14KWYJ+29PXN9uWf36+2vlYuacXU8OYqHP2hBo=
+github.com/TencentCloud/faceid-api-crypto-golang/faceid v1.0.0/go.mod h1:T35GDu+dTrP16wgMxyT2D9sz4dK9unN4/9OykxToIIA=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
