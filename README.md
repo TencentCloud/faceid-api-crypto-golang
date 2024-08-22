@@ -3,7 +3,7 @@
 ### 引入依赖
 
 ```golang
-go get -u github.com/TencentCloud/faceid-api-crypto-golang/faceid@v1.0.0
+go get -u github.com/TencentCloud/faceid-api-crypto-golang/faceid@v1.0.1
 
 ```
 
@@ -59,3 +59,6 @@ go get -u github.com/TencentCloud/faceid-api-crypto-golang/faceid@v1.0.0
 
 手机号三要素核验（联通）
 [PhoneVerificationCUCC](example%2FPhoneVerificationCUCC_test.go)
+
+身份证人像照片验真
+[CheckIdCardInformation](example%2FCheckIdCardInformation_test.go)
