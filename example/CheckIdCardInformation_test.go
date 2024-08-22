@@ -21,7 +21,7 @@ func TestCheckIdCardInformation(t *testing.T) {
 	// Step 1. 生成对称密钥，用于加解密敏感信息
 	key := faceid.GenerateKey(Algorithm)
 
-	// Step 2. 组装加密参数并对敏感数据加密
+	// Step 2. 生成加密参数
 	reqJson, err := faceid.BodyEncrypt(Algorithm, key, "")
 	if err != nil {
 		log.Fatalln(err)
@@ -32,7 +32,11 @@ func TestCheckIdCardInformation(t *testing.T) {
 	credential := common.NewCredential(SecretId, SecretKey)
 	client, _ := tencentcloudsdk.NewClient(credential, regions.Guangzhou, profile.NewClientProfile())
 	request := tencentcloudsdk.NewCheckIdCardInformationRequest()
-	_ = json.Unmarshal([]byte(reqJson), request)
+	err = json.Unmarshal(reqJson, request)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	// Step 4. TODO 根据您的业务需要，设置其他参数，详情参考api文档：https://cloud.tencent.com/document/product/1007/47276
 	request.ImageBase64 = common.StringPtr("")
 	request.IsEncryptResponse = common.BoolPtr(true)
