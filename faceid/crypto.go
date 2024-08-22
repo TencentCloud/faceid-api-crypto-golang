@@ -152,6 +152,87 @@ func DecryptData(algorithm Algorithm, key, ciphertext, iv, tag []byte) (plaintex
 	return
 }
 
+// BodyEncrypt 使用对称密钥加密包体数据
+func BodyEncrypt(algorithm Algorithm, key string, reqBody string) ([]byte, error) {
+	// 生成对称密钥
+	if key == "" {
+		key = GenerateKey(algorithm)
+	}
+	// 生成随机IV
+	iv := GenerateIv(algorithm)
+	m := make(map[string]interface{})
+
+	encryptKey, err := EncryptKey(algorithm, key)
+	if err != nil {
+		return nil, err
+	}
+
+	if reqBody != "" {
+		tagList := make([]string, 0)
+		ciphertext, tag, err := EncryptData(algorithm, []byte(key), []byte(reqBody), iv)
+		if err != nil {
+			return nil, err
+		}
+		if algorithm == SM4GCM {
+			tagList = append(tagList, base64.StdEncoding.EncodeToString(tag))
+		}
+		encryption := &Encryption{
+			Algorithm:      string(algorithm),
+			EncryptList:    []string{"EncryptionBody"},
+			CiphertextBlob: encryptKey,
+			Iv:             base64.StdEncoding.EncodeToString(iv),
+			TagList:        tagList,
+		}
+		m["Encryption"] = encryption
+		m["EncryptedBody"] = base64.StdEncoding.EncodeToString(ciphertext)
+
+		b, _ := json.Marshal(m)
+		return b, nil
+	}
+	encryption := &Encryption{
+		Algorithm:      string(algorithm),
+		EncryptList:    []string{"EncryptionBody"},
+		CiphertextBlob: encryptKey,
+		Iv:             base64.StdEncoding.EncodeToString(iv),
+		TagList:        nil,
+	}
+	m["Encryption"] = encryption
+	b, _ := json.Marshal(m)
+	return b, nil
+}
+
+// BodyDecrypt 使用对称密钥解密包体数据
+func BodyDecrypt(algorithm Algorithm, key, iv string, tags []string, respBody string) ([]byte, error) {
+	// 生成对称密钥
+	if key == "" || respBody == "" {
+		return nil, errors.New("parameter error")
+	}
+	if algorithm == SM4GCM {
+		if len(tags) != 1 || tags[0] == "" {
+			return nil, errors.New("parameter error")
+		}
+	}
+	ciphertext, err := base64.StdEncoding.DecodeString(respBody)
+	if err != nil {
+		return nil, err
+	}
+	ivByte, err := base64.StdEncoding.DecodeString(iv)
+	if err != nil {
+		return nil, err
+	}
+
+	tag, err := base64.StdEncoding.DecodeString(tags[0])
+	if err != nil {
+		return nil, err
+	}
+
+	plaintext, err := DecryptData(algorithm, []byte(key), ciphertext, ivByte, tag)
+	if err != nil {
+		return nil, err
+	}
+	return plaintext, nil
+}
+
 func GenerateIv(algorithm Algorithm) []byte {
 	switch algorithm {
 	case AES256CBC:
