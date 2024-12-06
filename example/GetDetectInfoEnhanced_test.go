@@ -55,7 +55,6 @@ func TestGetDetectInfoEnhanced(t *testing.T) {
 	}
 	log.Printf("%s \n", response.ToJsonString())
 
-	// Step 6. 组装需要解密的参数
 	// Step 6. 解密接敏感信息
 	var tagList []string
 	for _, s := range response.Response.Encryption.TagList {
