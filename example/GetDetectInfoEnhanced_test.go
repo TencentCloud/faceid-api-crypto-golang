@@ -55,12 +55,8 @@ func TestGetDetectInfoEnhanced(t *testing.T) {
 	}
 	log.Printf("%s \n", response.ToJsonString())
 
-	// Step 6. 解密接敏感信息
-	var tagList []*string
-	if Algorithm == faceid.SM4GCM {
-		tagList = response.Response.Encryption.TagList
-	}
-	plaintext, err := faceid.BodyDecrypt(Algorithm, key, *response.Response.Encryption.Iv, tagList, *response.Response.EncryptedBody)
+	// Step 6. 解密敏感信息
+	plaintext, err := faceid.BodyDecrypt(Algorithm, key, *response.Response.Encryption.Iv, response.Response.Encryption.TagList, *response.Response.EncryptedBody)
 	if err != nil {
 		log.Fatalln(err)
 	}
