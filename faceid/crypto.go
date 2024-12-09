@@ -202,14 +202,20 @@ func BodyEncrypt(algorithm Algorithm, key string, reqBody string) ([]byte, error
 }
 
 // BodyDecrypt 使用对称密钥解密包体数据
-func BodyDecrypt(algorithm Algorithm, key, iv string, tags []string, respBody string) ([]byte, error) {
+func BodyDecrypt(algorithm Algorithm, key, iv string, tags []*string, respBody string) ([]byte, error) {
+	var tag []byte
+	var err error
 	// 生成对称密钥
 	if key == "" || respBody == "" {
 		return nil, errors.New("parameter error")
 	}
 	if algorithm == SM4GCM {
-		if len(tags) != 1 || tags[0] == "" {
+		if len(tags) != 1 || *tags[0] == "" {
 			return nil, errors.New("parameter error")
+		}
+		tag, err = base64.StdEncoding.DecodeString(*tags[0])
+		if err != nil {
+			return nil, err
 		}
 	}
 	ciphertext, err := base64.StdEncoding.DecodeString(respBody)
@@ -217,11 +223,6 @@ func BodyDecrypt(algorithm Algorithm, key, iv string, tags []string, respBody st
 		return nil, err
 	}
 	ivByte, err := base64.StdEncoding.DecodeString(iv)
-	if err != nil {
-		return nil, err
-	}
-
-	tag, err := base64.StdEncoding.DecodeString(tags[0])
 	if err != nil {
 		return nil, err
 	}
