@@ -52,12 +52,8 @@ func TestCheckIdCardInformation(t *testing.T) {
 	}
 	log.Printf("ciphertext response: %s", response.ToJsonString())
 
-	// Step 6. 解密接敏感信息
-	var tagList []string
-	for _, s := range response.Response.Encryption.TagList {
-		tagList = append(tagList, *s)
-	}
-	plaintext, err := faceid.BodyDecrypt(Algorithm, key, *response.Response.Encryption.Iv, tagList, *response.Response.EncryptedBody)
+	// Step 6. 解密敏感信息
+	plaintext, err := faceid.BodyDecrypt(Algorithm, key, *response.Response.Encryption.Iv, response.Response.Encryption.TagList, *response.Response.EncryptedBody)
 	if err != nil {
 		log.Fatalln(err)
 	}
